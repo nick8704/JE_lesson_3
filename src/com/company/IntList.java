@@ -22,6 +22,8 @@ public interface IntList {
 
     int size();
 
+    void checkIndex(int index);
+
     int[] makeArrayFromIntList(IntList list);
 
     IntList makeIntListFromArray(int[] array);

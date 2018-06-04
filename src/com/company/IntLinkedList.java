@@ -36,6 +36,7 @@ public class IntLinkedList implements IntList {
 
     @Override
     public void add(int index, int element) {
+        checkIndex(index);
         Node node = new Node(element);
         if (index == 0) {
             node.next = startNode;
@@ -60,14 +61,12 @@ public class IntLinkedList implements IntList {
 
     @Override
     public boolean contains(int value) {
-        if (find(value) != null) {
-            return true;
-        }
-        return false;
+        return find(value) != null;
     }
 
     @Override
     public int get(int index) {
+        checkIndex(index);
         return findByIndex(index).element;
     }
 
@@ -78,9 +77,7 @@ public class IntLinkedList implements IntList {
 
     @Override
     public boolean remove(int index) {
-        if (index < 0 || index > size - 1) {
-            throw new IndexOutOfBoundsException();
-        }
+       checkIndex(index);
         if (index == 0) {
             startNode = startNode.next;
         } else {
@@ -146,8 +143,8 @@ public class IntLinkedList implements IntList {
     @Override
     public IntList makeIntListFromArray(int[] array) {
         IntList resultIntList = new IntLinkedList();
-        for (int i = 0; i < array.length; i++) {
-            resultIntList.add(array[i]);
+        for (int anArray : array) {
+            resultIntList.add(anArray);
         }
         return resultIntList;
     }
@@ -167,6 +164,13 @@ public class IntLinkedList implements IntList {
             }
         }
         return result.toString();
+    }
+
+    @Override
+    public void checkIndex(int index) {
+        if (index < 0 || index > size - 1) {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     private Node find(int value) {
@@ -189,10 +193,7 @@ public class IntLinkedList implements IntList {
     }
 
     private Node findByIndex(int index) {
-        if (index < 0 || index > size - 1) {
-            throw new IndexOutOfBoundsException();
-        }
-
+        checkIndex(index);
         int tmpIndex = 0;
         if (startNode == null) {
             throw new IndexOutOfBoundsException();

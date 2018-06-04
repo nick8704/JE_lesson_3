@@ -3,40 +3,41 @@ package com.company;
 public class IntArrayList implements IntList {
 
     private int[] array;
+    private int size;
 
     public IntArrayList() {
-        array = new int[0];
+        int DEFAULT_SIZE = 10;
+        array = new int[DEFAULT_SIZE];
     }
 
     @Override
     public void add(int element) {
-        int[] tmp = array;
-        array = new int[tmp.length + 1];
-        System.arraycopy(tmp, 0, array, 0, tmp.length);
-        array[array.length - 1] = element;
+        if (size >= array.length) {
+            resize();
+        }
+        array[size] = element;
+        size++;
     }
 
     @Override
     public void add(int index, int element) {
-        if (index < 0 || index > array.length - 1) {
-            throw new IndexOutOfBoundsException();
-        } else {
-            int[] tmp = array;
-            array = new int[tmp.length + 1];
-            System.arraycopy(tmp, 0, array, 0, index);
-            array[index] = element;
-            System.arraycopy(tmp, index, array, index + 1, tmp.length - index);
+        checkIndex(index);
+        if (size >= array.length) {
+            resize();
         }
+        System.arraycopy(array, index, array, index + 1, size - index);
+        array[index] = element;
+        size++;
     }
 
     @Override
     public void clear() {
-        array = new int[0];
+        size = 0;
     }
 
     @Override
     public boolean contains(int value) {
-        for (int i = 0; i < array.length; i++) {
+        for (int i = 0; i < size; i++) {
             if (array[i] == value) {
                 return true;
             }
@@ -46,34 +47,29 @@ public class IntArrayList implements IntList {
 
     @Override
     public int get(int index) {
-        if (index < 0 || index > array.length - 1) {
-            throw new IndexOutOfBoundsException();
-        }
+        checkIndex(index);
         return array[index];
     }
 
     @Override
     public boolean isEmpty() {
-        return array.length == 0;
+        return size == 0;
     }
 
     @Override
     public boolean remove(int index) {
-        if (index < 0 || index > array.length - 1) {
-            throw new IndexOutOfBoundsException();
-        }
-        int[] tmp = array;
-        array = new int[tmp.length - 1];
-        System.arraycopy(tmp, 0, array, 0, index);
-        System.arraycopy(tmp, index + 1, array, index, tmp.length - index - 1);
+        checkIndex(index);
+        System.arraycopy(array, index + 1, array, index, size - index - 1);
+        size--;
         return true;
     }
 
     @Override
     public boolean removeElement(int element) {
-        for (int i = 0; i < array.length; i++) {
+        for (int i = 0; i < size; i++) {
             if (array[i] == element) {
-                remove(i);
+                System.arraycopy(array, i + 1, array, i, size - i - 1);
+                size--;
                 return true;
             }
         }
@@ -82,15 +78,20 @@ public class IntArrayList implements IntList {
 
     @Override
     public void set(int index, int element) {
-        if (index < 0 || index > array.length - 1) {
-            throw new IndexOutOfBoundsException();
-        }
+        checkIndex(index);
         array[index] = element;
     }
 
     @Override
     public int size() {
-        return array.length;
+        return size;
+    }
+
+    @Override
+    public void checkIndex(int index) {
+        if (index < 0 || index > size - 1) {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     @Override
@@ -105,8 +106,8 @@ public class IntArrayList implements IntList {
     @Override
     public IntList makeIntListFromArray(int[] array) {
         IntList resultIntList = new IntArrayList();
-        for (int i = 0; i < array.length; i++) {
-            resultIntList.add(array[i]);
+        for (int anArray : array) {
+            resultIntList.add(anArray);
         }
         return resultIntList;
     }
@@ -114,9 +115,16 @@ public class IntArrayList implements IntList {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        for (int i = 0; i < array.length; i++) {
+        for (int i = 0; i < size; i++) {
             result.append("Element ").append(i).append(" : ").append(array[i]).append("\n");
         }
         return result.toString();
+    }
+
+    private void resize() {
+        int newSize = array.length * 3 / 2 + 1;
+        int[] newArr = new int[newSize];
+        System.arraycopy(array, 0, newArr, 0, array.length);
+        array = newArr;
     }
 }
