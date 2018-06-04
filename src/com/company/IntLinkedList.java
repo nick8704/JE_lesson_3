@@ -13,11 +13,11 @@ public class IntLinkedList implements IntList {
         private int element;
         private Node next;
 
-        public Node(Integer element) {
+        private Node(Integer element) {
             this.element = element;
         }
 
-        public Node() {
+        private Node() {
         }
     }
 

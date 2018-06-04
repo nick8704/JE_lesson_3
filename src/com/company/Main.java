@@ -58,6 +58,10 @@ public class Main {
         System.out.println("IntLinkedList after sorting:");
         sort(intLinkedList);
         printSpaces();
+        printResizeCounter(1000);
+        printResizeCounter(1000000);
+        //printResizeCounter(1000000000);
+        System.out.println();
         System.out.println("The results of the list speed test for classes 'ArrayList<Integer>', 'IntArrayList', 'LinkedList<Integer>' and 'IntLinkedList'.");
         printComputerConfiguration();
         speedTest();
@@ -87,7 +91,16 @@ public class Main {
         System.out.println();
     }
 
-    private static void printComputerConfiguration () {
+    private static void printResizeCounter(int size) {
+        IntArrayList intArrayList = new IntArrayList();
+        Random random = new Random();
+        for (int i = 0; i < size; i++) {
+            intArrayList.add(random.nextInt(10));
+        }
+        System.out.printf("The method 'resize()' is called %d times when %d elements are added to the list.\n", intArrayList.getResizeCounter(), size);
+    }
+
+    private static void printComputerConfiguration() {
         System.out.println();
         System.out.println("Computer configuration: ");
         System.out.println("Processor: Intel(R) Core(TM) i7-7500U CPU @ 2.70GHz 2.90 GHz");
@@ -187,7 +200,7 @@ public class Main {
         System.out.println("Method 'add(int index, int element)' to the top of the list (10'000 times):");
         timeBefore = System.currentTimeMillis();
         for (int i = 0; i < 10000; i++) {
-            arrayList.add(0,50);
+            arrayList.add(0, 50);
         }
         timeAfter = System.currentTimeMillis();
         currentTime = (timeAfter - timeBefore) / 1000.0;
@@ -195,7 +208,7 @@ public class Main {
 
         timeBefore = System.currentTimeMillis();
         for (int i = 0; i < 10000; i++) {
-            intArrayList.add(0,50);
+            intArrayList.add(0, 50);
         }
         timeAfter = System.currentTimeMillis();
         currentTime = (timeAfter - timeBefore) / 1000.0;
@@ -203,7 +216,7 @@ public class Main {
 
         timeBefore = System.currentTimeMillis();
         for (int i = 0; i < 10000; i++) {
-            linkedList.add(0,50);
+            linkedList.add(0, 50);
         }
         timeAfter = System.currentTimeMillis();
         currentTime = (timeAfter - timeBefore) / 1000.0;
@@ -211,7 +224,7 @@ public class Main {
 
         timeBefore = System.currentTimeMillis();
         for (int i = 0; i < 10000; i++) {
-            intLinkedList.add(0,50);
+            intLinkedList.add(0, 50);
         }
         timeAfter = System.currentTimeMillis();
         currentTime = (timeAfter - timeBefore) / 1000.0;
@@ -221,7 +234,7 @@ public class Main {
         System.out.println("Method 'add(int index, int element)' to the middle of the list (5'000 times):");
         timeBefore = System.currentTimeMillis();
         for (int i = 0; i < 5000; i++) {
-            arrayList.add(arrayList.size() / 2,50);
+            arrayList.add(arrayList.size() / 2, 50);
         }
         timeAfter = System.currentTimeMillis();
         currentTime = (timeAfter - timeBefore) / 1000.0;
@@ -229,7 +242,7 @@ public class Main {
 
         timeBefore = System.currentTimeMillis();
         for (int i = 0; i < 5000; i++) {
-            intArrayList.add(intArrayList.size() / 2,50);
+            intArrayList.add(intArrayList.size() / 2, 50);
         }
         timeAfter = System.currentTimeMillis();
         currentTime = (timeAfter - timeBefore) / 1000.0;
@@ -237,7 +250,7 @@ public class Main {
 
         timeBefore = System.currentTimeMillis();
         for (int i = 0; i < 5000; i++) {
-            linkedList.add(linkedList.size() / 2,50);
+            linkedList.add(linkedList.size() / 2, 50);
         }
         timeAfter = System.currentTimeMillis();
         currentTime = (timeAfter - timeBefore) / 1000.0;
@@ -245,7 +258,7 @@ public class Main {
 
         timeBefore = System.currentTimeMillis();
         for (int i = 0; i < 5000; i++) {
-            intLinkedList.add(intLinkedList.size() / 2,50);
+            intLinkedList.add(intLinkedList.size() / 2, 50);
         }
         timeAfter = System.currentTimeMillis();
         currentTime = (timeAfter - timeBefore) / 1000.0;

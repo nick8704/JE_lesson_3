@@ -4,6 +4,7 @@ public class IntArrayList implements IntList {
 
     private int[] array;
     private int size;
+    private int resizeCounter;
 
     public IntArrayList() {
         int DEFAULT_SIZE = 10;
@@ -103,6 +104,10 @@ public class IntArrayList implements IntList {
         return resultArray;
     }
 
+    int getResizeCounter() {
+        return resizeCounter;
+    }
+
     @Override
     public IntList makeIntListFromArray(int[] array) {
         IntList resultIntList = new IntArrayList();
@@ -126,5 +131,6 @@ public class IntArrayList implements IntList {
         int[] newArr = new int[newSize];
         System.arraycopy(array, 0, newArr, 0, array.length);
         array = newArr;
+        resizeCounter++;
     }
 }
